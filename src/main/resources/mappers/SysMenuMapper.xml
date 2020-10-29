@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.dao.SysMenuDao">
+    <!-- resultType为map时，{字段名为key,字段值为value} eg:[{id:1,name:菜单管理,....},{id:2,name:用户管理,....}]-->
+    <select id="findSysMenuList" resultType="map">
+        select tm1.*,tm2.name
+        from sys_menus tm1 left join sys_menus tm2 on tm1.parentId = tm2.id
+    </select>
+    <delete id="deleteSysMenuById">
+        delete from sys_menus where id = #{id}
+    </delete>
+
+    <select id="findZtreeMenuNodes" resultType="com.cy.vo.Node">
+        select id,name,parentId from sys_menus
+    </select>
+
+    <update id="updateSysMenu">
+        update sys_menus
+        set name=#{name},
+            url=#{url},
+            type=#{type},
+            sort=#{sort},
+            note=#{note},
+            parentId=#{parentId},
+            permission=#{permission},
+            modifiedTime=now()
+        where id=#{id}
+
+    </update>
+
+    <insert id="saveSysMenu">
+        insert into sys_menus (name,url,type,sort,note,parentId,permission,createdTime,modifiedTime,createdUser,modifiedUser)
+        values(#{name},#{url},#{type},#{sort},#{note},#{parentId},#{permission},now(),now(),#{createdUser},#{modifiedUser})
+    </insert>
+
+    <select id="findChildMenuById" resultType="com.cy.entity.SystemMenu">
+        select * from sys_menus where parentId = #{id}
+    </select>
+</mapper>
