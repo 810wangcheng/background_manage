@@ -38,7 +38,7 @@ public class MenuController {
     @RequestMapping("doDeleteObject")
     @ResponseBody
     public JsonResult doDeleteSysLog(Integer id){
-        int row = sysMenuService.deleteSysLogById(id);
+        int row = sysMenuService.deleteSysMenuById(id);
         return new JsonResult("delete success,row="+row);
     }
 

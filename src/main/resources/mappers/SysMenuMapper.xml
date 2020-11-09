@@ -38,4 +38,8 @@
     <select id="findChildMenuById" resultType="com.cy.entity.SystemMenu">
         select * from sys_menus where parentId = #{id}
     </select>
+
+    <select id="findMenuIdsByRoleId" resultType="int">
+        select menu_id from sys_role_menus where role_id = #{id}
+    </select>
 </mapper>
