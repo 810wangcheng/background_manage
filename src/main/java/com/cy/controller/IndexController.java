@@ -16,4 +16,9 @@ public class IndexController {
     public String doPageUI(){
         return "common/page";
     }
+
+    @RequestMapping("doLogin")
+    public String doLogin(){
+        return "login";
+    }
 }

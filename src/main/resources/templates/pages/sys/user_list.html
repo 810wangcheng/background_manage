@@ -47,7 +47,7 @@
 </div>
 <script type="text/javascript">
    $(document).ready(function(){
-	   $("#pageId").load("doPageUI.do",function(){
+	   $("#pageId").load("doPageUI",function(){
 		   doGetObjects();
 	   });
 	   $(".input-group-btn")
@@ -78,11 +78,12 @@
 	   //1.params
 	   var params={"id":id};
 	   //2.url
-	   var url="user/doFindObjectById.do";
+	   var url="user/doFindObjectById";
 	   //3.ajax request
 	   $.getJSON(url,params,function(result){//JsonResult
 		   if(result.state==1){
-			  $("#mainContentId").data("rowData",result.data); 
+			  $("#mainContentId").data("rowData",result.data);
+			  console.log(result.data);
 	          doLoadPage(title);
 		   }else{
 			  alert(result.message);
@@ -94,7 +95,7 @@
 	 return $("tbody input[name='radioId']:checked").val();
    }
    function doLoadPage(title){
-	   var url="user/doUserEditUI.do"
+	   var url="user/doUserEditUI"
 	   $("#mainContentId").load(url,function(){
 		   $(".box-title").html(title);
 	   }) 
@@ -107,7 +108,7 @@
 	   var newValid=rowData.valid?0:1;
 	   var params={"id":rowData.id,"valid":newValid};
 	   //url
-	   var url="user/doValidById.do";
+	   var url="user/doValidById";
 	   //ajax request
        var btn=$(this);//获取点击的button对象
 	   $.post(url,params,function(result){
@@ -139,7 +140,7 @@
    }
    //页面加载完成异步加载当前页数据
    function doGetObjects(){
-	   var url="user/doFindPageObjects.do";
+	   var url="user/doFindPageObjects";
 	   var pageCurrent=$("#pageId").data("pageCurrent");
 	   if(!pageCurrent)pageCurrent=1;
 	   var params={"pageCurrent":pageCurrent}

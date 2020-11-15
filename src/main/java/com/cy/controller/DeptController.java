@@ -48,7 +48,7 @@ public class DeptController {
     @ResponseBody
     public JsonResult doFindZTreeNodes0SysDept(){
         List<Node> nodeList = sysDeptService.findNode0SysDept();
-        return new JsonResult();
+        return new JsonResult(nodeList);
     }
 
     @RequestMapping("doSaveObject")

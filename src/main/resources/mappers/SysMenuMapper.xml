@@ -42,4 +42,13 @@
     <select id="findMenuIdsByRoleId" resultType="int">
         select menu_id from sys_role_menus where role_id = #{id}
     </select>
+    <select id="findPermissionsByMenuIds" resultType="java.lang.String">
+        select permission from sys_menus
+        <where>
+            menuId in
+            <foreach collection="menuIds" separator="," open="(" item="menuId" close=")">
+                #{menuId}
+            </foreach>
+        </where>
+    </select>
 </mapper>

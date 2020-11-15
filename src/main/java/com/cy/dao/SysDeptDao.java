@@ -51,4 +51,11 @@ public interface SysDeptDao {
      * @return
      */
     List<SystemDept> findChildDept(Integer id);
+
+    /**
+     * dao层根据id查询部门信息
+     * @param id
+     * @return
+     */
+    SystemDept findDeptById(Integer id);
 }

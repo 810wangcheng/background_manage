@@ -12,6 +12,10 @@
         delete from sys_depts where id = #{id}
     </delete>
 
+    <select id="findDeptById" resultType="com.cy.entity.SystemDept">
+        select * from sys_depts where id = #{id}
+    </select>
+
     <select id="findNodeList0SysDept" resultType="com.cy.vo.Node">
         select  id,name,parentId from sys_depts
     </select>

@@ -50,4 +50,17 @@ public interface SysMenuDao {
      */
     List<SystemMenu> findChildMenuById();
 
+    /**
+     * 联合查询，根据角色id查询菜单id
+     * @param id
+     * @return
+     */
+    int findMenuIdsByRoleId(Integer id);
+
+    /**
+     * 根据菜单id数组查询权限
+     * @param toArray
+     * @return
+     */
+    List<String> findPermissionsByMenuIds(Integer[] toArray);
 }
