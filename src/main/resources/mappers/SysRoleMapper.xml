@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.dao.SysRoleDao">
+    <select id="findRoleList" resultType="com.cy.entity.SystemRole">
+        select * from sys_roles
+        <include refid="queryWhereId"/>
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="findRowCount" resultType="int">
+        select count(*) from sys_roles
+        <include refid="queryWhereId"/>
+    </select>
+
+    <resultMap id="roleMenuMap" type="com.cy.vo.RoleMenuVo">
+        <collection property="menuIds" select="com.cy.dao.SysMenuDao.findMenuIdsByRoleId" column="id"/>
+    </resultMap>
+
+    <select id="findRoleById" resultMap="roleMenuMap">
+        select id,name,note from sys_roles where id = #{id}
+    </select>
+
+    <select id="findRoleIdByUserId" resultType="java.lang.Integer">
+        select role_id from sys_user_roles where user_id = #{id}
+    </select>
+
+    <select id="findRoles" resultType="com.cy.entity.SystemRole">
+        select id,name from sys_roles
+    </select>
+    <select id="findMenuIdByRoleIds" resultType="java.lang.Integer">
+        select menu_id from sys_role_menus
+        <where>
+            role_id in
+            <foreach collection="roleIds" separator="," open="(" item="roleId" close=")">
+                #{roleId}
+            </foreach>
+        </where>
+    </select>
+
+    <insert id="saveRole">
+        insert into sys_roles (name,note,createdTime,modifiedTime,createdUser,modifiedUser)
+        values (#{name},#{note},now(),now(),#{createdUser},#{modifiedUser})
+    </insert>
+
+    <insert id="saveRoleIdAndMenuId">
+        insert into sys_role_menus (role_id,menu_id) values
+         <foreach collection="menuIds" item="menuId" separator=",">
+             (#{roleId},#{menuId})
+         </foreach>
+    </insert>
+    <insert id="saveRoleIdAndUserId">
+        insert into sys_user_roles (user_id,role_id) values
+        <foreach collection="roleIds" separator="," item="roleId">
+            (#{userId},#{roleId})
+        </foreach>
+    </insert>
+
+    <update id="updateRole">
+        update sys_roles
+        set name = #{name},
+        note = #{note},
+        modifiedTime = now(),
+        createdUser = #{createdUser},
+        modifiedUser = #{modifiedUser}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRoleById">
+        delete from sys_roles where id = #{id}
+    </delete>
+
+    <delete id="deleteMenuIdsByRoleId">
+        delete from sys_role_menus where role_Id = #{roleId}
+    </delete>
+    <delete id="deleteRoleIdByUserId">
+        delete from sys_user_roles where user_id = #{userId}
+    </delete>
+
+    <sql id="queryWhereId">
+        <where>
+            <if test="name != null and name != ''">
+                name like concat ("%",#{name},"%")
+            </if>
+        </where>
+    </sql>
+</mapper>

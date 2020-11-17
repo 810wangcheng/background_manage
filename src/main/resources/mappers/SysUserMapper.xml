@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.dao.SysUserDao">
+    <insert id="saveSysUser">
+        insert into sys_users (username,password,salt,email,mobile,valid,deptId,createdTime,modifiedTime,createdUser,modifiedUser)
+        values(#{username},#{password},#{salt},#{email},#{mobile},#{valid},#{deptId},now(),now(),#{createdUser},#{modifiedUser})
+    </insert>
+    <update id="updateValidById">
+        update sys_users set valid = #{valid} where id = #{id}
+    </update>
+    <update id="updateSysUser">
+        update sys_users set
+        username = #{username},
+        password = #{password},
+        salt = #{salt},
+        email = #{email},
+        mobile = #{mobile},
+        valid = #{valid},
+        deptId = #{deptId},
+        modifiedTime = now(),
+        createdUser = #{createdUser},
+        modifiedUser = #{modifiedUser}
+    </update>
+    <update id="updateSysUserById">
+        update sys_users set
+        username = #{username},
+        salt = #{salt},
+        email = #{email},
+        mobile = #{mobile},
+        valid = #{valid},
+        deptId = #{deptId},
+        modifiedTime = now(),
+        createdUser = #{createdUser},
+        modifiedUser = #{modifiedUser}
+        where id = #{id}
+    </update>
+
+    <resultMap id="UserDeptMap" type="com.cy.vo.UserDeptVo">
+        <association property="sysDept" select="com.cy.dao.SysDeptDao.findDeptById" column="deptId"/>
+    </resultMap>
+
+    <select id="findUserList" resultMap="UserDeptMap">
+        select * from sys_users
+        <include refid="queryWhereId"/>
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="getRows" resultType="java.lang.Integer">
+        select count(*) from sys_users
+        <include refid="queryWhereId"/>
+    </select>
+    <select id="findUserById" resultMap="UserDeptMap">
+        select * from sys_users where id = #{id}
+    </select>
+    <!--<select id="findUserByUsernameAndPassword" resultType="com.cy.entity.SysUser">
+        select * from sys_users where username = #{username}
+    </select>-->
+    <select id="findUserByUserName" resultType="com.cy.entity.SysUser">
+        select * from sys_users where username = #{username}
+    </select>
+
+    <sql id="queryWhereId">
+        <where>
+            <if test="username != null and username != ''">
+                username like concat ("%",#{username},"%")
+            </if>
+        </where>
+    </sql>
+</mapper>
