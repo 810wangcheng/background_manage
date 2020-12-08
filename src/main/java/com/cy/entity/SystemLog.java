@@ -22,7 +22,7 @@ public class SystemLog implements Serializable {
     private String operation;
     private String method;
     private String params;
-    private Integer time;
+    private Long time;
     private String ip;
     private Date createdTime;
 }

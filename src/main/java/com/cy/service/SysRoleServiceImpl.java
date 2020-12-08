@@ -1,5 +1,6 @@
 package com.cy.service;
 
+import com.cy.annotation.RequiredLog;
 import com.cy.common.ServiceException;
 import com.cy.dao.SysRoleDao;
 import com.cy.entity.SystemRole;
@@ -24,6 +25,7 @@ public class SysRoleServiceImpl implements SysRoleService{
     @Autowired
     private SysRoleDao sysRoleDao;
 
+    @RequiredLog
     @Override
     public PageObject<SystemRole> findRolePageObjects(String name, Integer pageCurrent) {
         if (pageCurrent == null || pageCurrent <= 0){
@@ -43,6 +45,7 @@ public class SysRoleServiceImpl implements SysRoleService{
         return PageUtils.generatePageObject(pageCurrent,pageSize,pageCount,rowCount,roleList);
     }
 
+    @RequiredLog
     @Override
     public int saveOrUpdateRole(SystemRole role,Integer[] menuIds) {
         log.debug("开始保存或更新对象");
@@ -74,6 +77,7 @@ public class SysRoleServiceImpl implements SysRoleService{
         return row;
     }
 
+    @RequiredLog
     @Override
     public int deleteRoleById(Integer id) {
         if(id == null || id <= 0){

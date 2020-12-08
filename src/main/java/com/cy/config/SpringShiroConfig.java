@@ -74,7 +74,8 @@ public class SpringShiroConfig {
         map.put("/user/doLogin","anon");
         //退出页面允许匿名访问
         map.put("/doLogout","logout");
-        //除了匿名访问的资源,其它都要认证("authc")后访问 map.put("/**","authc");
+        //除了匿名访问的资源,其它都要认证("authc")后访问
+        /*map.put("/**","authc");*/
         map.put("/**","user");
         filterFactoryBean.setFilterChainDefinitionMap(map);
         return filterFactoryBean;

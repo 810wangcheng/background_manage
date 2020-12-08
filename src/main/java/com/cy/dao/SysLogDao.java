@@ -37,4 +37,6 @@ public interface SysLogDao {
      * @return
      */
     int deleteSysLogsByIds(@Param("ids") Integer[] ids);
+
+    void insertSysLog(SystemLog systemLog);
 }
